@@ -1,0 +1,160 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fcf8f8] group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3e7e8] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#1b0e0e]">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_6_330)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+                <defs>
+                  <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+                </defs>
+              </svg>
+            </div>
+            <h2 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em]">FlavorPlate</h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('index') }}">Home</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Menu</a> <!-- Link to menu page -->
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Order Online</a> <!-- Placeholder -->
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Catering</a> <!-- Placeholder -->
+              {% if current_user.is_authenticated %}
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('make_reservation') }}">Make a Reservation</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('my_reservations') }}">My Reservations</a>
+              {% endif %}
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">About</a> <!-- Placeholder -->
+            </div>
+            <div class="flex items-center gap-2">
+                {% if current_user.is_authenticated %}
+                    <span class="text-[#1b0e0e] text-sm font-medium">Hi, {{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Logout</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Sign In</span>
+                    </a>
+                    <a href="{{ url_for('register') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Register</span>
+                    </a>
+                {% endif %}
+              <button
+                class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f3e7e8] text-[#1b0e0e] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+              >
+                <div class="text-[#1b0e0e]" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+            <h2 class="text-green-600 tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Order Confirmed!</h2>
+            {% if order %}
+            <p class="text-[#1b0e0e] text-base font-normal leading-normal pb-3 pt-1 px-4 text-center">
+              Thank you for your order, {{ current_user.username }}! Your order #{{ order.id }} has been placed and is being prepared. <br/>
+              Estimated pickup time: 20-30 minutes.
+            </p>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Order Summary</h3>
+            <div class="p-4">
+                <div class="border-t border-gray-200">
+                    <dl>
+                        <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Order Number</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">#{{ order.id }}</dd>
+                        </div>
+                        <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Order Date</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ order.order_date.strftime('%Y-%m-%d %I:%M %p') }}</dd>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Status</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ order.status }}</dd>
+                        </div>
+                        <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Total Amount</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">${{ "%.2f"|format(order.total_amount) }}</dd>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Items</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <ul role="list" class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                    {% for item in order.items %}
+                                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                        <div class="w-0 flex-1 flex items-center">
+                                            <span class="ml-2 flex-1 w-0 truncate">{{ item.menu_item.name }} (x{{ item.quantity }})</span>
+                                        </div>
+                                        <div class="ml-4 flex-shrink-0">
+                                            <span>${{ "%.2f"|format(item.price_at_time_of_order * item.quantity) }}</span>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-center text-red-500">Could not retrieve order details.</p>
+            {% endif %}
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Next Steps</h3>
+            <p class="text-[#1b0e0e] text-base font-normal leading-normal pb-3 pt-1 px-4">
+              Please arrive at the restaurant at the estimated pickup time. Have your order number ready for verification. Thank you for your order!
+            </p>
+            <div class="flex px-4 py-3 justify-center gap-4">
+              <a href="{{ url_for('index') }}"
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-gray-200 text-gray-700 text-sm font-bold leading-normal tracking-[0.015em]"
+              >
+                <span class="truncate">Back to Home</span>
+              </a>
+              <a href="{{ url_for('order_history') }}"
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]"
+              >
+                <span class="truncate">View Order History</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  <script>
+    // Ensure cart display is updated on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCartDisplay();
+    });
+  </script>
+</html>

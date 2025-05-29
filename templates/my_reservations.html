@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reservations</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') if app and app.static_folder else '' }}">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-center">My Reservations</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="mb-4">
+              {% for category, message in messages %}
+                <div class="p-4 rounded {% if category == 'danger' %}bg-red-100 border border-red-400 text-red-700{% elif category == 'success' %}bg-green-100 border border-green-400 text-green-700{% else %}bg-blue-100 border border-blue-400 text-blue-700{% endif %}" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% if reservations %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Date</th>
+                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Time</th>
+                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Guests</th>
+                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Status</th>
+                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Special Requests</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        {% for reservation in reservations %}
+                            <tr class="border-b">
+                                <td class="py-3 px-4">{{ reservation.reservation_time.strftime('%Y-%m-%d') }}</td>
+                                <td class="py-3 px-4">{{ reservation.reservation_time.strftime('%I:%M %p') }}</td>
+                                <td class="py-3 px-4">{{ reservation.number_of_guests }}</td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 font-semibold leading-tight
+                                        {% if reservation.status == 'Confirmed' %} text-green-700 bg-green-100
+                                        {% elif reservation.status == 'Pending' %} text-yellow-700 bg-yellow-100
+                                        {% elif reservation.status == 'Cancelled' %} text-red-700 bg-red-100
+                                        {% else %} text-gray-700 bg-gray-100 {% endif %} rounded-full">
+                                        {{ reservation.status }}
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4">{{ reservation.special_requests or 'N/A' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center text-gray-600">You have no reservations yet.</p>
+        {% endif %}
+        <p class="mt-6 text-center">
+            <a href="{{ url_for('make_reservation') }}" class="text-indigo-600 hover:text-indigo-700 font-medium">Make a new reservation</a> |
+            <a href="{{ url_for('index') }}" class="text-indigo-600 hover:text-indigo-500">Back to Home</a>
+        </p>
+    </div>
+</body>
+</html>
