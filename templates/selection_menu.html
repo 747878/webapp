@@ -40,16 +40,32 @@
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Menu</a>
-              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Catering</a>
-              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Rewards</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('index') }}">Home</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Menu</a> <!-- Link to menu page -->
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Catering</a> <!-- Placeholder -->
+              {% if current_user.is_authenticated %}
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('make_reservation') }}">Make a Reservation</a>
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('my_reservations') }}">My Reservations</a>
+              {% endif %}
+              <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Rewards</a> <!-- Placeholder -->
             </div>
-            <div class="flex gap-2">
-              <button
-                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3e7e8] text-[#1b0e0e] text-sm font-bold leading-normal tracking-[0.015em]"
-              >
-                <span class="truncate">Sign In</span>
-              </button>
+            <div class="flex items-center gap-2">
+                {% if current_user.is_authenticated %}
+                    <span class="text-[#1b0e0e] text-sm font-medium">Hi, {{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Logout</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Sign In</span>
+                    </a>
+                    <a href="{{ url_for('register') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Register</span>
+                    </a>
+                {% endif %}
               <button
                 class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f3e7e8] text-[#1b0e0e] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
               >
@@ -82,10 +98,13 @@
               <span class="text-[#994d51] text-base font-medium leading-normal">/</span>
               <span class="text-[#1b0e0e] text-base font-medium leading-normal">Sandwiches</span>
             </div>
-            <h1 class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 text-left pb-3 pt-5">Grilled Chicken Sandwich</h1>
-            <p class="text-[#1b0e0e] text-base font-normal leading-normal pb-3 pt-1 px-4">
-              A classic grilled chicken sandwich featuring a juicy, marinated chicken breast, crisp lettuce, ripe tomato slices, and a tangy honey mustard sauce, all nestled
-              between two slices of toasted sourdough bread.
+            <div id="menu-item-details" data-item-id="item_gcs" data-item-name="Grilled Chicken Sandwich" data-item-price="12.99">
+                <h1 class="text-[#1b0e0e] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 text-left pb-3 pt-5 item-name">Grilled Chicken Sandwich</h1>
+                <p class="text-[#1b0e0e] text-base font-normal leading-normal pb-3 pt-1 px-4 item-description">
+                  A classic grilled chicken sandwich featuring a juicy, marinated chicken breast, crisp lettuce, ripe tomato slices, and a tangy honey mustard sauce, all nestled
+                  between two slices of toasted sourdough bread.
+                </p>
+            </div>
             </p>
             <div class="flex w-full grow bg-[#fcf8f8] @container p-4">
               <div class="w-full gap-1 overflow-hidden bg-[#fcf8f8] @[480px]:gap-2 aspect-[3/2] rounded-xl flex">
@@ -99,55 +118,55 @@
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
               <label class="flex flex-col min-w-40 flex-1">
                 <p class="text-[#1b0e0e] text-base font-medium leading-normal pb-2">Bread</p>
-                <select
+                <select id="customization-bread"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1b0e0e] focus:outline-0 focus:ring-0 border border-[#e7d0d1] bg-[#fcf8f8] focus:border-[#e7d0d1] h-14 bg-[image:--select-button-svg] placeholder:text-[#994d51] p-[15px] text-base font-normal leading-normal"
                 >
-                  <option value="one"></option>
-                  <option value="two">two</option>
-                  <option value="three">three</option>
+                  <option value="sourdough">Sourdough</option>
+                  <option value="whole_wheat">Whole Wheat</option>
+                  <option value="white">White</option>
                 </select>
               </label>
             </div>
             <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
               <label class="flex flex-col min-w-40 flex-1">
                 <p class="text-[#1b0e0e] text-base font-medium leading-normal pb-2">Sauce</p>
-                <select
+                <select id="customization-sauce"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1b0e0e] focus:outline-0 focus:ring-0 border border-[#e7d0d1] bg-[#fcf8f8] focus:border-[#e7d0d1] h-14 bg-[image:--select-button-svg] placeholder:text-[#994d51] p-[15px] text-base font-normal leading-normal"
                 >
-                  <option value="one"></option>
-                  <option value="two">two</option>
-                  <option value="three">three</option>
+                  <option value="honey_mustard">Honey Mustard</option>
+                  <option value="mayonnaise">Mayonnaise</option>
+                  <option value="chipotle_aioli">Chipotle Aioli</option>
                 </select>
               </label>
             </div>
             <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Add-ons</h3>
-            <div class="px-4">
+            <div class="px-4" id="customization-addons">
               <label class="flex gap-x-3 py-3 flex-row">
                 <input
-                  type="checkbox"
+                  type="checkbox" value="extra_chicken"
                   class="h-5 w-5 rounded border-[#e7d0d1] border-2 bg-transparent text-[#e92932] checked:bg-[#e92932] checked:border-[#e92932] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#e7d0d1] focus:outline-none"
                 />
                 <p class="text-[#1b0e0e] text-base font-normal leading-normal">Extra Chicken</p>
               </label>
               <label class="flex gap-x-3 py-3 flex-row">
                 <input
-                  type="checkbox"
+                  type="checkbox" value="avocado"
                   class="h-5 w-5 rounded border-[#e7d0d1] border-2 bg-transparent text-[#e92932] checked:bg-[#e92932] checked:border-[#e92932] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#e7d0d1] focus:outline-none"
                 />
                 <p class="text-[#1b0e0e] text-base font-normal leading-normal">Avocado</p>
               </label>
               <label class="flex gap-x-3 py-3 flex-row">
                 <input
-                  type="checkbox"
+                  type="checkbox" value="bacon"
                   class="h-5 w-5 rounded border-[#e7d0d1] border-2 bg-transparent text-[#e92932] checked:bg-[#e92932] checked:border-[#e92932] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#e7d0d1] focus:outline-none"
                 />
                 <p class="text-[#1b0e0e] text-base font-normal leading-normal">Bacon</p>
               </label>
             </div>
             <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Price</h3>
-            <p class="text-[#1b0e0e] text-base font-normal leading-normal pb-3 pt-1 px-4">$12.99</p>
+            <p class="item-price text-[#1b0e0e] text-base font-normal leading-normal pb-3 pt-1 px-4">$12.99</p>
             <div class="flex px-4 py-3">
-              <button
+              <button id="add-to-cart-selection"
                 class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 flex-1 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]"
               >
                 <span class="truncate">Add to Cart</span>
@@ -157,5 +176,42 @@
         </div>
       </div>
     </div>
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartDisplay(); // Initialize cart display
+
+            const addToCartButton = document.getElementById('add-to-cart-selection');
+            if (addToCartButton) {
+                addToCartButton.addEventListener('click', () => {
+                    const itemDetailsDiv = document.getElementById('menu-item-details');
+                    const itemId = itemDetailsDiv.dataset.itemId;
+                    const itemName = itemDetailsDiv.dataset.itemName;
+                    const itemPrice = parseFloat(itemDetailsDiv.dataset.itemPrice);
+
+                    const selectedBread = document.getElementById('customization-bread').value;
+                    const selectedSauce = document.getElementById('customization-sauce').value;
+                    
+                    const selectedAddons = [];
+                    document.querySelectorAll('#customization-addons input[type="checkbox"]:checked').forEach(checkbox => {
+                        selectedAddons.push(checkbox.value);
+                    });
+
+                    const customizations = {
+                        bread: selectedBread,
+                        sauce: selectedSauce,
+                        addons: selectedAddons
+                    };
+
+                    if (itemId && itemName && !isNaN(itemPrice)) {
+                        addToCart(itemId, itemName, itemPrice, customizations);
+                    } else {
+                        console.error('Could not add item to cart. Missing base item data.');
+                        alert('Error: Could not retrieve item details to add to cart.');
+                    }
+                });
+            }
+        });
+    </script>
   </body>
 </html>

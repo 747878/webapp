@@ -1,0 +1,408 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fcf8f8] group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3e7e8] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-[#1b0e0e]">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+              <h2 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em]">FlavorHub</h2>
+            </div>
+            <div class="flex items-center gap-9">
+                <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('index') }}">Home</a>
+                <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Menu</a> <!-- This page is Menu, so perhaps link to sections or home -->
+                <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Order Online</a> <!-- Placeholder -->
+                {% if current_user.is_authenticated %}
+                <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('make_reservation') }}">Make a Reservation</a>
+                <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="{{ url_for('my_reservations') }}">My Reservations</a>
+                {% endif %}
+                <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">About Us</a> <!-- Placeholder -->
+                <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Contact</a> <!-- Placeholder -->
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                <div
+                  class="text-[#994d51] flex border-none bg-[#f3e7e8] items-center justify-center pl-4 rounded-l-xl border-r-0"
+                  data-icon="MagnifyingGlass"
+                  data-size="24px"
+                  data-weight="regular"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  placeholder="Search"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1b0e0e] focus:outline-0 focus:ring-0 border-none bg-[#f3e7e8] focus:border-none h-full placeholder:text-[#994d51] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  value=""
+                />
+              </div>
+            </label>
+            <!-- Auth Status and Cart -->
+            <div class="flex items-center gap-2">
+                {% if current_user.is_authenticated %}
+                    <span class="text-[#1b0e0e] text-sm font-medium">Hi, {{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Logout</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Sign In</span>
+                    </a>
+                    <a href="{{ url_for('register') }}"
+                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Register</span>
+                    </a>
+                {% endif %}
+                <button
+                  class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f3e7e8] text-[#1b0e0e] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+                >
+                  <div class="text-[#1b0e0e]" data-icon="ShoppingCart" data-size="20px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                      <path
+                        d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"
+                      ></path>
+                    </svg>
+                  </div>
+                </button>
+            </div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <div class="flex min-w-72 flex-col gap-3">
+                <p class="text-[#1b0e0e] tracking-light text-[32px] font-bold leading-tight">Our Menu</p>
+                <p class="text-[#994d51] text-sm font-normal leading-normal">
+                  Explore our diverse menu featuring a range of appetizers, entrees, and beverages. Each dish is crafted with fresh ingredients and authentic flavors.
+                </p>
+              </div>
+            </div>
+            <div class="pb-3">
+              <div class="flex border-b border-[#e7d0d1] px-4 gap-8">
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#e92932] text-[#1b0e0e] pb-[13px] pt-4" href="#">
+                  <p class="text-[#1b0e0e] text-sm font-bold leading-normal tracking-[0.015em]">Appetizers</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#994d51] pb-[13px] pt-4" href="#">
+                  <p class="text-[#994d51] text-sm font-bold leading-normal tracking-[0.015em]">Entrees</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#994d51] pb-[13px] pt-4" href="#">
+                  <p class="text-[#994d51] text-sm font-bold leading-normal tracking-[0.015em]">Desserts</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#994d51] pb-[13px] pt-4" href="#">
+                  <p class="text-[#994d51] text-sm font-bold leading-normal tracking-[0.015em]">Drinks</p>
+                </a>
+              </div>
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Appetizers</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="1" data-item-name="Crispy Calamari" data-item-price="12.99">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuALwrY4vZZOyRoQPgTrNPCw0zi1_f28C09XLD2QnGVLoDFID3RvDCWPzeHqzP949Fe7z2Epkfdae6pSlz5C-Ggg1aFP4hwqCxCqXA6P5pVDuzmisueCsXiuhWsZ3Tp9TV0YeZW9uyVnTJRI02T9qXhWbtqrKitP5EYBFqIoS772I-efEz4rqq4mxZUja7NgSuM9JaOgeTZiGvFJueqRannPLiIki89IMrxdowbU9_KLZOl8qjEvXX8xPdp7s6Q-XqcFjdBhmw8KYws");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Crispy Calamari</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">
+                    Tender calamari rings, lightly battered and fried to a golden crisp. Served with a zesty marinara sauce.
+                  </p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$12.99</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="2" data-item-name="Spinach Artichoke Dip" data-item-price="11.00">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBJxlySlD6NlKwcdx1X23wmJVPdfN-DVlHS9e7vKdzw6xoilEbr5xmhmAv6CvCbNSr1pyxRfnmwyg4iod6aMcDWECS4oyQJa9loaKCKo7IILlQvzByCcVs6m8D07IAS3Vsvsq_ur38Q4xbT-eLzQzjXU3lApg4u3Z0jyp86zbRwYuLUHjMQrQrQDBnB1XolhVEF1DnDFSG0v5dgTVJTiHEXzMgpHSzI1lCdfmpGeq2cmh_jyzPwyyuVpW2dDJJ9Ibu6suwZhPp-K-I");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Spinach Artichoke Dip</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">Creamy blend of spinach, artichoke hearts, and cheeses, served with toasted baguette slices.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$11.00</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="3" data-item-name="Bruschetta Trio" data-item-price="9.50">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCI0WGaUG0PPYQJ0Onr3J9L9hdrLIcyAalsHx14XDt1I4G3jwm46GWQgRHreyWqeZ53q5u7LJDsQxD5baENqIRKEgFrtUYg_0GKjLmFL8OBMIC1yEqAqawEh4isDzUTqv8As2Jmlt59ijj5x_Ds9JSX1H9TJl-dz-JVVcc_7kRZdJSkCs9uaSkxvxzGAML7_RLFQABS7_3WpNTlvx9yGqnrQi12exgf_H6EAfU2llaq2cjcL9FGEe_5-FNQExId7knfD8NXi9JMM8A");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Bruschetta Trio</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">
+                    A selection of three bruschetta variations: classic tomato basil, roasted red pepper, and mushroom truffle.
+                  </p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$9.50</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="4" data-item-name="Shrimp Ceviche" data-item-price="13.50">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB4ThRyz1hp2bf2YGJzivzjTp0Cg6I_pgNGxFwAx19azOuO6igo4dWyZpMAiG1ymFkkFqT2GN-IUS06ScuGdo5TmnGf6JKo7qZuXijdIo3w0O1X3rW9DajPPJN-qfiIUfpUGY2RjSifEy_0Zg8dcJImbWHDIbpA5W7nDJyADl0UbbUrThpzKxoeZ71T7ui2hjwbLtaYf4nHT3QLYCfXDiwc9pI1RRlbbRHt1izkHmMtqCYfIDpiS9F7UUVC-PomKSec8_oNLYi2Vu8");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Shrimp Ceviche</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">Fresh shrimp marinated in lime juice with cilantro, red onion, and a hint of jalapeño.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$13.50</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Entrees</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="5" data-item-name="Grilled Salmon" data-item-price="25.00">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZwsYhrLshOH5cpOSDK8RY9Qdz4aerARaShfvRmcXqB7Y9IDD_t0q9YA43_p9e2sIgwibAYietTYox8nfy4ZEJb6G7QSsHOGlulULUGXrpTjyvINDGPQrSJLWiYRptgwEE7WhmWSQJLewAmD1hLS45vG6OtBjkJlREkw9WSLEZESzBWGi84SbLMjxycn6X3VBJvBhPa0CU3ujtOXgzeJcbUrtPFBbbr3g9XHD5T3T-V0YOMmqmdOmTeiX1RatXn7lbg1CjFNKl3w0");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Grilled Salmon</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">
+                    Fresh Atlantic salmon fillet, grilled to perfection and served with roasted asparagus and lemon butter sauce.
+                  </p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$25.00</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="6" data-item-name="Filet Mignon" data-item-price="35.50">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDhtzRPbMXewgruZx_0W9iM9pL8jrTCr0gk-AQeUrBHz_L4v9Nkh1crBckY47TZKngiuwWClBKSPUfeHli8K3tJOvL_UJpnX3D0DdGVnW-H8uFI-sQSSCfX_qTrreB3fyBy9e80hKwyXndDLQZnchNz8CRK20OrvqmTW4VsD7N3TiLMZpOM2wA3VCEE_nyuspCch9hCtIoyDWvAnVAMwFvHl9afi69VpVPWlwFGK7LnslgXZTvkW0_PZPP5pmAeH564icd0-NZ10M0");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Filet Mignon</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">
+                    Tender filet mignon, cooked to your preference and served with mashed potatoes and red wine reduction.
+                  </p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$35.50</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="7" data-item-name="Vegetable Paella" data-item-price="19.99">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJgjNnfd-Q79dmmZ9AS1grX9degMYRfH_IIzTURNEB71ipSCY3_fwoehlgk2Ii6FTHM2CNB69SyuT_w9TbTWZQWBrUcy7bK12fFqFdcYrFcURGuThgLqV6oB9rZZt0nedB96GZ5CfJnytS2pXhnmyJim7x7vgv_vdRXIz4VsyU2Yoa5LYielwgMajL8tLGzotVUkkFff6apF0Ol0XLlTFcyctNyOThT4SmNvDPKK7iCHUTcJ1amnC117bQbVEN1A4LpiZiqj6jblk");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Vegetable Paella</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">
+                    A flavorful Spanish rice dish with a medley of seasonal vegetables, saffron, and a hint of paprika.
+                  </p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$19.99</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="8" data-item-name="Chicken Alfredo" data-item-price="18.99">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAECXYQmwM57URC9IoH4EsGIIuR0a225288OswB-aqhGm4Wx38gqFI_S8otkvxTthek0jPO8Io1TB9def00opNIeAJeSfLEzen9PECXInBdWcYJQfaJE7QlxJAb0oeJK_AyaJczfGg9aOkJc_n72jl8NDGKBQNNAzSKIU4B943jJlr3E1epieNlEW7yABBscfQxXHnLXMKNC31G6X47wgsPj53KFWZq5-2irk2yoM46Ii3-j2vD7G_MNYyJAJAx_Q2GYONDzCiOl3c");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Chicken Alfredo</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">Classic creamy Alfredo sauce with grilled chicken breast, served over fettuccine pasta.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$18.99</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Desserts</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="9" data-item-name="Chocolate Lava Cake" data-item-price="8.99">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJuUFozYou2b2rO8cmMKYva7yqi3A33tWt9T0_QpHUUWwZFBEHIT60lrJxvufV67EWidaGn7E9QZhhUt23QiDIziqHwF3VkHHVqDUTJa7BJu-gelGZFTWX7bT4g2ilkZN3bFVInU1WCFkrstuXrQR8d0tzRhtMy8V6INjf-j_TY41BpbkvTDUb_qB-YXRv33HKw7QdTTCvLc-gsSxPAhyEyRwTA3FOD8YERQhL_ekvjwj3FJfh7-rHU2uLpw1zQkG17eWNCenLlSE");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Chocolate Lava Cake</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">Warm chocolate cake with a molten chocolate center, served with vanilla bean ice cream.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$8.99</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="10" data-item-name="Cheesecake" data-item-price="7.50">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAT7HeePLfqiFuWRwhkQ_TL6WQogcvYJTcjsecGWweLlXSfYRu8vaFjVJ0cSubPwIl8dJIkAmpAFGdazRT4QJ9pBRfCVaW3KGQs7LO7YKYZFq2pu0BFTzAukc7quHNwvKqC83iWSmPZH58_pxyZUnJYEmIN8vLkJwoAZHzyElSwvZIKTOtFMNsiMvxf1QB8YhXPic3L-X-Z1WH1iBs_W-0cy0_WwaFbreIM2WyBYcSU8zBRnEVfq7EFaVjXUOJM_zCNbU6mnarU2DY");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Cheesecake</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">
+                    Classic New York-style cheesecake with a graham cracker crust and a choice of berry or caramel topping.
+                  </p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$7.50</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="11" data-item-name="Tiramisu" data-item-price="8.00">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAYqzUgCC6KNJwpx0G5pcHlGZdOwiV9QHNcSKYolm6CIioGJQOgZhXTaydWUxGNeGEQIU1yvDVnp8CkFd3nO2fXmJhs1XlkIGDeu2eKKLmjcM4zEC-qdEBKbkiKGe01EEeQdsUgDTLpWl6j4VBZR97BXs2bE8cDbPuFGi5ljmVYGz23zbxrdi4euhhUoRDtUhhL-fq_K0IfeoLuLZmi40nRkMP2mfbW9s2OukKFIvITC1LS-Os5-1jalJu1bFcMhmwP2pqgBcwsgoo");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Tiramisu</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">Layers of espresso-soaked ladyfingers, mascarpone cream, and cocoa powder.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$8.00</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="12" data-item-name="Fruit Tart" data-item-price="7.00">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuADYhHkI0NH2mAjbud60FDr6dLlOWFo3WIic_01DxQU94btytOU6GYhN0zMyl7agsHASgyXhG8eVkChi-zrLzEDSMejBR6-pOhgCpvtX7QqBoGWgJiAuEXo4EEOS5qEqJzAngS3PtBR9D2C_oKuwboNTpmt5ILnC60OwBki_ZZbsfGjrPK1Br0BwaELo36RyzM4yxMuRkgCBZlOL0oRWy4haQ624kfdo4vF5CcDtjgxfjjiUnuV4Wbki2LGNfEJAisg8XwiVq43SZA");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Fruit Tart</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">A delicate pastry tart filled with fresh seasonal fruits and a light custard cream.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$7.00</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            <h3 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Drinks</h3>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="13" data-item-name="House Red Wine" data-item-price="8.00">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC1h4dPvFUtNpcGaXpqsma4F6cJD_19YJn2swLD7XD_iDliteer9jFVzI9DPDeg1WM3dx4Bf9GyZUpVqzn-UlIvIfQgWZt72NvsWvt0OBIpaQsqXzBNWO4SZB0Kf44CEbOQ3DDK7ai7JgR-qA-jMurb17KUl6NDnDekvMDMi5KIOBr90wmDD_cq9yRZFoORvHqwqAJRyB3Tjo2bk9JLcYx1Up9tOcF7iL4TNolQ2mCE7SoFCzrTH1tvE5jtVhYAr3ptldux30n0KQc");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">House Red Wine</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">A full-bodied red wine with notes of cherry and oak, perfect for pairing with our entrees.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$8.00</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="14" data-item-name="Craft Beer Selection" data-item-price="7.00">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxWcumeMxkXpGigcPvA5Qw65IZs7BmrObhvb8PSnSRhCd4tnkgnJBBVDUyht_paLbvKpc3M2aDDPzi7UZTZkKv9kFOtpYaIFzpyMCyTPQCiO67pLYjBwOW6p8E-KTqhDHStnTMV_TINwVVS8BbnmQZL186fjfrNyAgiwfhab6cWPTl-n72GuX_swweBbM6F7C73eAXgUcNq1mU9sXaa91Mm3rItXQjCPSc_v47-zj5iE6Ebj2bYZDu7pYsgOfbiIGQReyg3BQRR0g");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Craft Beer Selection</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">A rotating selection of locally brewed craft beers, including IPAs, lagers, and stouts.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$7.00</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="15" data-item-name="Iced Tea" data-item-price="3.00">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAOpVUzM0ieF0SiEwIwIF5ZvAFLDbfC97Zkv8HljOag5XobA2uwOWiUnBe0smGM-T7kNE5zVOB-K5FpfHMTHCoyJ1M9S2NO79TK3pkJbn6HAiR8qwmoSHQSYl9eEwEMj_572TzOpt4yN6PNRLj0S_V_BQaFeeLZula1GP_Mgp8JrTmz8Bxafm0hVbhMyKnmf39JHHrRzeD53MzDTF9oHq__ojccfQE7SY3pcBD7T4iNwB40yvoakD8tf8iTtw_GVp5t9L6Bb97xK60");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Iced Tea</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">Refreshing iced tea, available in unsweetened or sweetened varieties.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$3.00</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+              <div class="menu-item flex flex-col gap-3 pb-3" data-item-id="16" data-item-name="Sparkling Water" data-item-price="2.50">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmcKvHGUPas2Dj1IlsNsJ0La2u8m0KSKTKZ_9oXyJuQe6m5BtVGApkNiNWdYius4uKhNYn99V_1jSeZmi0t3jVNS0qCUE2Jt32Q1RLdxAZjRWbvkv0YG0OBH3jUDsO1Oyx4INMPR7JHDNtradR0UH739EyEZm-R_bdZFP5mgqG2UBUHSaZiuDe3xKYMZNMsjnWM5uCszE1LtW450ClfZZXSwDtgSAiTWG6IxbVg5q4A5aYKg4GqUTwesB71grPwvLPYDRNoe-K4tI");'
+                ></div>
+                <div>
+                  <p class="text-[#1b0e0e] text-base font-medium leading-normal item-name">Sparkling Water</p>
+                  <p class="text-[#994d51] text-sm font-normal leading-normal item-description">Naturally flavored sparkling water with a hint of citrus.</p>
+                  <p class="text-[#1b0e0e] text-base font-bold leading-normal item-price">$2.50</p>
+                  <button class="add-to-cart-btn mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const menuItemDiv = event.target.closest('.menu-item');
+                    const itemId = menuItemDiv.dataset.itemId;
+                    const itemName = menuItemDiv.dataset.itemName;
+                    // Prices are sometimes inside a <p> tag, handle this robustly
+                    let itemPriceText = menuItemDiv.dataset.itemPrice;
+                    if (!itemPriceText) { // Fallback to searching inside the div
+                        const priceElement = menuItemDiv.querySelector('.item-price');
+                        if (priceElement) {
+                             // Remove $ and convert to float
+                            itemPriceText = priceElement.textContent.replace('$', '');
+                        }
+                    }
+                    const itemPrice = parseFloat(itemPriceText);
+
+                    if (itemId && itemName && !isNaN(itemPrice)) {
+                        addToCart(itemId, itemName, itemPrice);
+                    } else {
+                        console.error('Could not add item to cart. Missing data:', {itemId, itemName, itemPriceText, itemPrice});
+                        alert('Error: Could not retrieve item details to add to cart.');
+                    }
+                });
+            });
+        });
+    </script>
+  </body>
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          updateCartDisplay(); // Initialize cart display on page load
+
+          const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+          addToCartButtons.forEach(button => {
+              button.addEventListener('click', (event) => {
+                  const menuItemDiv = event.target.closest('.menu-item');
+                  const itemId = menuItemDiv.dataset.itemId;
+                  const itemName = menuItemDiv.dataset.itemName;
+                  let itemPriceText = menuItemDiv.dataset.itemPrice;
+                  
+                  if (!itemPriceText) {
+                      const priceElement = menuItemDiv.querySelector('.item-price');
+                      if (priceElement) {
+                          itemPriceText = priceElement.textContent.replace('$', '');
+                      }
+                  }
+                  const itemPrice = parseFloat(itemPriceText);
+
+                  if (itemId && itemName && !isNaN(itemPrice)) {
+                      addToCart(itemId, itemName, itemPrice);
+                  } else {
+                      console.error('Could not add item to cart. Missing data:', {itemId, itemName, itemPriceText, itemPrice});
+                      alert('Error: Could not retrieve item details to add to cart.');
+                  }
+              });
+          });
+      });
+  </script>
+</html>
